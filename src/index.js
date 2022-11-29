@@ -42,10 +42,10 @@ function getEvents(keyWord, searchPage){
     renderEvents(events) //викликаємо розмітку
     //console.log(events)
     pageToFetch += 1;
-    if (resp.total > 1) {
+    if (resp.totalHits > 1) {
     loadBtn.classList.remove("load-more")
     }
-    if (pageToFetch === resp.total) {
+    if (pageToFetch === resp.totalHits) {
         loadBtn.classList.add("load-more")
     }
 
@@ -61,8 +61,13 @@ function renderEvents(events) {
     const markup = events.map((event) => {
         //console.log(event)
         return `
-        <div class="photo-card">
-  <img src="${event.webformatURL}" alt="${events.tags}" loading="lazy" />
+        <div class="photo-card galary_item">
+  <a class = "galery_link" href = "${event.largeImageURL}">
+  <img class = "galary_image" src="${event.webformatURL}"
+  data-source = "${event.largeImageURL}"
+  alt="${events.tags}" loading="lazy" />
+  </a>
+
   <div class="info">
     <p class="info-item">
       <b>Likes</b>: ${event.likes}
@@ -76,7 +81,7 @@ function renderEvents(events) {
     <p class="info-item">
       <b>Downloads</b>: ${event.downloads}
     </p>
-  </div>
+      </div>
 </div>`;
     })
     .join("");
