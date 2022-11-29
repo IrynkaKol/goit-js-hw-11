@@ -62,24 +62,26 @@ function renderEvents(events) {
         //console.log(event)
         return `
         <div class="photo-card galary_item">
+        <div class="galary__foto>
   <a class = "galery_link" href = "${event.largeImageURL}">
   <img class = "galary_image" src="${event.webformatURL}"
   data-source = "${event.largeImageURL}"
-  alt="${events.tags}" loading="lazy" />
+  alt="${events.tags}" loading="lazy" >
+  </img>
   </a>
-
+  </div>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>: ${event.likes}
+      <b>Likes:</b> ${event.likes}
     </p>
     <p class="info-item">
-      <b>Views</b>: ${event.views}
+      <b>Views:</b> ${event.views}
     </p>
     <p class="info-item">
-      <b>Comments</b>: ${event.comments}
+      <b>Comments:</b> ${event.comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b>: ${event.downloads}
+      <b>Downloads:</b> ${event.downloads}
     </p>
       </div>
 </div>`;
