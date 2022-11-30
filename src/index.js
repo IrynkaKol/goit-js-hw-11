@@ -1,21 +1,26 @@
 import axios from 'axios';
+import Notiflix from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const form = document.querySelector(".search-form");
 const searchQuery = document.querySelector("input");
 const loadBtn = document.querySelector(".load-more");
 const gallery = document.querySelector(".gallery")
 
+
 const BASE_URL = "https://pixabay.com/api/";
 const API = "31662888-485c328889ccd569f357119c9"
 
 let pageToFetch = 1; 
 let wordToFetch = "";
+let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 
 function fetchEvents(keyWord, searchPage) {
     const searchParams = new URLSearchParams({
         key: API,
         q: keyWord,
-        per_page: 40,
+        per_page: 100,
         page: searchPage,
         image_type: "photo",
         orientation: "horizontal",
@@ -31,6 +36,7 @@ return fetch(`${BASE_URL}?${searchParams}`)
     })
     .catch((error) => {
         console.error(error)
+      
     })
 }  //робе запит
 
@@ -40,16 +46,28 @@ function getEvents(keyWord, searchPage){
     console.log(resp) //дивимось як достукатись до events
     const events = resp.hits
     renderEvents(events) //викликаємо розмітку
+    //console.log(resp.totalHits)
     //console.log(events)
     pageToFetch += 1;
-    if (resp.totalHits > 1) {
+    let page = Math.ceil(resp.totalHits / events.length)
+    if(events.length === 0) {
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+    } else {
+      Notiflix.Notify.success(`Hooray! We found ${resp.totalHits} images.`);
+    }
+
+        if (resp.totalHits / events.length > 1) {
     loadBtn.classList.remove("load-more")
     }
-    if (pageToFetch === resp.totalHits) {
+    if (pageToFetch === page) {
+      
         loadBtn.classList.add("load-more")
+        Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
+        
     }
 
 });
+gallerySimpleLightbox.refresh();
 } //отримали подію
 //getEvents('cat', // був для тесту
 loadBtn.addEventListener("click", () => {
@@ -100,5 +118,6 @@ function onClick (event) {
     gallery.innerHTML = '';
 
     getEvents(wordToFetch, pageToFetch)
+    
 }
 
