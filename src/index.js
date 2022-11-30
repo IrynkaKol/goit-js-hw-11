@@ -20,7 +20,7 @@ function fetchEvents(keyWord, searchPage) {
     const searchParams = new URLSearchParams({
         key: API,
         q: keyWord,
-        per_page: 100,
+        per_page: 40,
         page: searchPage,
         image_type: "photo",
         orientation: "horizontal",
@@ -47,12 +47,14 @@ function getEvents(keyWord, searchPage){
     const events = resp.hits
     renderEvents(events) //викликаємо розмітку
     //console.log(resp.totalHits)
-    //console.log(events)
+    console.log(events)
     pageToFetch += 1;
     let page = Math.ceil(resp.totalHits / events.length)
     if(events.length === 0) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+      loadBtn.classList.add("load-more")
     } else {
+
       Notiflix.Notify.success(`Hooray! We found ${resp.totalHits} images.`);
     }
 
@@ -65,13 +67,14 @@ function getEvents(keyWord, searchPage){
         Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
         
     }
-
+    
 });
-gallerySimpleLightbox.refresh();
+
 } //отримали подію
 //getEvents('cat', // був для тесту
 loadBtn.addEventListener("click", () => {
     getEvents(wordToFetch, pageToFetch)
+    
 })
 
 
@@ -80,14 +83,14 @@ function renderEvents(events) {
         //console.log(event)
         return `
         <div class="photo-card galary_item">
-        <div class="galary__foto>
+        
   <a class = "galery_link" href = "${event.largeImageURL}">
   <img class = "galary_image" src="${event.webformatURL}"
   data-source = "${event.largeImageURL}"
   alt="${events.tags}" loading="lazy" >
   </img>
   </a>
-  </div>
+  
   <div class="info">
     <p class="info-item">
       <b>Likes:</b> ${event.likes}
@@ -106,6 +109,8 @@ function renderEvents(events) {
     })
     .join("");
     gallery.insertAdjacentHTML("beforeend", markup)
+
+    gallerySimpleLightbox.refresh();
 
 } //малюємо розмітку. в якості параметрів приймає масив подій
 
