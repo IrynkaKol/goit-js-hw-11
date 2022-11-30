@@ -9,20 +9,21 @@
   </head>
   <body>
       <form class="search-form" id="search-form">
-        <div class = "back">
+        
       <input
+      class="search-form__input"
         type="text"
         name="searchQuery"
         autocomplete="off"
         placeholder="Search images..."
       />
-      <button type="submit"><i class="fa fa-search"></i></button>
-      </div>
+      <button class = "search-form__button" type="submit"><i class="fa fa-search"></i></button>
+      </form>
       <div class="gallery">
         <!-- Карточки изображений -->
       </div>
       <button class ="load-more" type="button">Load more</button>
-    </form>
+    
     <!-- ❗️❗️❗️ Add partials like so for every page -->
     <!--<include src="./partials/example.html"></include>-->
   </body>
