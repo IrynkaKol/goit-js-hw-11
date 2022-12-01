@@ -21,7 +21,7 @@ let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 loadBtn.style.display = "none";
 
 
-function fetchEvents(keyWord, searchPage) {
+async function fetchEvents(keyWord, searchPage) {
     const searchParams = new URLSearchParams({
         key: API,
         q: keyWord,
@@ -32,18 +32,19 @@ function fetchEvents(keyWord, searchPage) {
         safesearch: "true",
     })
     //console.log(searchParams.toString()); 
-return fetch(`${BASE_URL}?${searchParams}`)
-.then((resp) => {
+return await fetch(`${BASE_URL}?${searchParams}`)
+.then(async (resp) => {
     if (!resp.ok) {
         throw new Error(resp.status);
       }
-      return resp.json();
+      return await resp.json();
     })
     .catch((error) => {
         console.error(error)
       
     })
 }  //робе запит
+
 
 function getEvents(keyWord, searchPage){
     fetchEvents(keyWord, searchPage)
@@ -80,6 +81,7 @@ if (keyWord === " ") {
 
 } //отримали подію
 //getEvents('cat', // був для тесту
+
 loadBtn.addEventListener("click", () => {
     getEvents(wordToFetch, pageToFetch)
     
