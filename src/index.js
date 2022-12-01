@@ -6,6 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const form = document.querySelector(".search-form");
 const searchQuery = document.querySelector("input");
 const loadBtn = document.querySelector(".load-more");
+
 const gallery = document.querySelector(".gallery")
 
 
@@ -16,11 +17,15 @@ let pageToFetch = 1;
 let wordToFetch = "";
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 
+
+loadBtn.style.display = "none";
+
+
 function fetchEvents(keyWord, searchPage) {
     const searchParams = new URLSearchParams({
         key: API,
         q: keyWord,
-        per_page: 40,
+        per_page: 100,
         page: searchPage,
         image_type: "photo",
         orientation: "horizontal",
@@ -43,29 +48,32 @@ return fetch(`${BASE_URL}?${searchParams}`)
 function getEvents(keyWord, searchPage){
     fetchEvents(keyWord, searchPage)
     .then(resp => {
-    console.log(resp) //дивимось як достукатись до events
+    //console.log(resp) //дивимось як достукатись до events
     const events = resp.hits
     renderEvents(events) //викликаємо розмітку
     //console.log(resp.totalHits)
-    console.log(events)
+    //console.log(events)
     pageToFetch += 1;
     let page = Math.ceil(resp.totalHits / events.length)
     if(events.length === 0) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
-      loadBtn.classList.add("load-more")
+      loadBtn.style.display = "none"
     } else {
-
       Notiflix.Notify.success(`Hooray! We found ${resp.totalHits} images.`);
+      loadBtn.style.display = "flex";
     }
-
+if (keyWord === " ") {
+  loadBtn.classList.add("load-more")
+}
         if (resp.totalHits / events.length > 1) {
-    loadBtn.classList.remove("load-more")
+    
+    
+  
     }
     if (pageToFetch === page) {
-      
-        loadBtn.classList.add("load-more")
+             
         Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
-        
+        loadBtn.style.display = "none";
     }
     
 });
