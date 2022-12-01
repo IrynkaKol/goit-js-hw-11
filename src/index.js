@@ -30,12 +30,13 @@ async function fetchEvents(keyWord, searchPage) {
   });
   //console.log(searchParams.toString());
   try {
-    const resp = await fetch(`${BASE_URL}?${searchParams}`);
-    
+    const resp = await axios.get(`${BASE_URL}?key=${API}&q=${keyWord}&orientation=horizontal&safesearch=true&image_type=photo&per_page=40&page=${searchPage}`)
+    //await fetch(`${BASE_URL}?${searchParams}`);
+    /*
     if (!resp.ok) {
       throw new Error(resp.status);
-    }
-    return await resp.json();
+    }*/
+    return await resp.data;
   } catch (error) {
     console.error(error);
   }
