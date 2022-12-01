@@ -32,17 +32,16 @@ async function fetchEvents(keyWord, searchPage) {
         safesearch: "true",
     })
     //console.log(searchParams.toString()); 
-return await fetch(`${BASE_URL}?${searchParams}`)
-.then(async (resp) => {
-    if (!resp.ok) {
+ const resp = await fetch(`${BASE_URL}?${searchParams}`)
+ return await resp.json();
+ 
+console.log(data)
+   /* if (!resp.ok) {
         throw new Error(resp.status);
-      }
-      return await resp.json();
-    })
-    .catch((error) => {
-        console.error(error)
+      }*/
       
-    })
+  
+    
 }  //робе запит
 
 
@@ -52,8 +51,8 @@ function getEvents(keyWord, searchPage){
     //console.log(resp) //дивимось як достукатись до events
     const events = resp.hits
     renderEvents(events) //викликаємо розмітку
-    //console.log(resp.totalHits)
-    //console.log(events)
+    console.log(resp.totalHits)
+    console.log(events.length)
     pageToFetch += 1;
     let page = Math.ceil(resp.totalHits / events.length)
     if(events.length === 0) {
@@ -66,11 +65,8 @@ function getEvents(keyWord, searchPage){
 if (keyWord === " ") {
   loadBtn.classList.add("load-more")
 }
-        if (resp.totalHits / events.length > 1) {
-    
-    
-  
-    }
+        //if (resp.totalHits / events.length > 1) {}
+        
     if (pageToFetch === page) {
              
         Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
