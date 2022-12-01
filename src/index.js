@@ -22,7 +22,7 @@ async function fetchEvents(keyWord, searchPage) {
   const searchParams = new URLSearchParams({
     key: API,
     q: keyWord,
-    per_page: 100,
+    per_page: 40,
     page: searchPage,
     image_type: 'photo',
     orientation: 'horizontal',
@@ -55,6 +55,7 @@ function getEvents(keyWord, searchPage) {
     //console.log(events);
     pageToFetch += 1;
     let page = Math.ceil(resp.totalHits / events.length);
+    
     if (events.length === 0) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
