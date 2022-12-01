@@ -31,12 +31,13 @@ async function fetchEvents(keyWord, searchPage) {
   //console.log(searchParams.toString());
   try {
     const resp = await axios.get(`${BASE_URL}?key=${API}&q=${keyWord}&orientation=horizontal&safesearch=true&image_type=photo&per_page=40&page=${searchPage}`)
+    const data = resp.data
     //await fetch(`${BASE_URL}?${searchParams}`);
     /*
     if (!resp.ok) {
       throw new Error(resp.status);
     }*/
-    return await resp.data;
+    return await data;
   } catch (error) {
     console.error(error);
   }
